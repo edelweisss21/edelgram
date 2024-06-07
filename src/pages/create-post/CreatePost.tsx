@@ -1,5 +1,7 @@
+import Layout from '@/components/layout/Layout';
+
 const CreatePost = () => {
-	return <div>CreatePost</div>;
+	return <Layout>CreatePost</Layout>;
 };
 
 export default CreatePost;

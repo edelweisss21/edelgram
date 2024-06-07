@@ -1,9 +1,16 @@
+import { getAuth } from 'firebase/auth';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const ProtectedRoutes = () => {
-	const isAuth: boolean = true;
+	const auth = getAuth();
+	const [user, loading] = useAuthState(auth);
 	const location = useLocation();
-	return isAuth ? (
+
+	if (loading) {
+		return <div>Loading...</div>;
+	}
+	return user ? (
 		<Outlet />
 	) : (
 		<Navigate to='edelgram/login' state={{ from: location }} />
