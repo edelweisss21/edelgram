@@ -4,11 +4,14 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useUserAuth } from '@/hooks/useUserAuth';
-import { IPost, TFileEntry } from '@/types/types';
+import { createPost } from '@/services/repository/post.service';
+import { IPost, TFileEntry, TPhotoMeta } from '@/types/types';
 import { ChangeEvent, MouseEvent, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const CreatePost = () => {
 	const { user } = useUserAuth();
+	const navigate = useNavigate();
 	const [fileEntry, setFileEntry] = useState<TFileEntry>({
 		files: [],
 	});
@@ -26,6 +29,22 @@ const CreatePost = () => {
 		e.preventDefault();
 		console.log('Uploaded File Entry: ', fileEntry.files);
 		console.log('The create post is: ', post);
+		const photoMeta: TPhotoMeta[] = fileEntry.files.map((file) => {
+			return { cdnUrl: file.cdnUrl, uuid: file.uuid };
+		});
+		
+		if (user !== null) {
+			const newPost: IPost = {
+				...post,
+				photos: photoMeta,
+				userId: user?.uid || null,
+			};
+			console.log('The final post:', newPost);
+			await createPost(newPost);
+			navigate('/edelgram/');
+		} else {
+			navigate('/edelgram/login');
+		}
 	};
 
 	return (

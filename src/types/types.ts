@@ -1,4 +1,3 @@
-import { OutputFileEntry } from './../../node_modules/@uploadcare/blocks/types/exported.d';
 export interface IUserSignUp {
 	email: string;
 	password: string;
@@ -32,4 +31,8 @@ export interface IPost {
 	userLikes: [];
 	userId: string | null;
 	date: Date;
+}
+
+export interface IDocumentResponse extends IPost {
+	id: string;
 }

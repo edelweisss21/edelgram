@@ -8,6 +8,8 @@ import {
 } from '@uploadcare/blocks';
 import { useCallback, useRef } from 'react';
 
+//TODO: Декомпозироовать
+
 interface IFileUploaderProps {
 	fileEntry: TFileEntry;
 	onChange: (fileEntry: TFileEntry) => void;
@@ -35,6 +37,7 @@ const FileUploader = ({ fileEntry, onChange }: IFileUploaderProps) => {
 
 	const resetUploaderState = () => {
 		ctxProviderRef.current?.uploadCollection.clearAll();
+		onChange({ files: [] });
 	};
 
 	return (
@@ -66,7 +69,7 @@ const FileUploader = ({ fileEntry, onChange }: IFileUploaderProps) => {
 								&times;
 							</button>
 						</div>
-						{/* <button onClick={resetUploaderState}>asdasd</button> */}
+						{/* <button onClick={resetUploaderState}>test</button> */}
 					</div>
 				))}
 			</div>
