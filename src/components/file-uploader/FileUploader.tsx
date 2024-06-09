@@ -69,7 +69,7 @@ const FileUploader = ({ fileEntry, onChange }: IFileUploaderProps) => {
 								&times;
 							</button>
 						</div>
-						{/* <button onClick={resetUploaderState}>test</button> */}
+						<button onClick={resetUploaderState}>test</button>
 					</div>
 				))}
 			</div>

@@ -3,7 +3,7 @@ import { useUserAuth } from '@/hooks/useUserAuth';
 import { getPostByUserId } from '@/services/repository/post.service';
 import { IDocumentResponse, IPost } from '@/types/types';
 import { useEffect, useState } from 'react';
-import Post from './Post';
+import Post from '@/components/post/Post';
 
 const MyPhotos = () => {
 	const { user } = useUserAuth();
@@ -29,7 +29,7 @@ const MyPhotos = () => {
 
 	useEffect(() => {
 		if (user !== null) getAllPosts(user.uid);
-	}, []);
+	}, [user]);
 
 	return (
 		<Layout>
