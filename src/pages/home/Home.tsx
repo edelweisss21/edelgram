@@ -42,7 +42,11 @@ const Home = () => {
 					<h2 className='mb-5'>Feed</h2>
 					<div className='w-full flex justify-center'>
 						<div className='flex flex-col max-w-sm rounded-sm overflow-hidden'>
-							{data ? <PostCard data={data} /> : <p>Loading...</p>}
+							{data ? (
+								data.map((item) => <PostCard key={item.id} item={item} />)
+							) : (
+								<p>Loading...</p>
+							)}
 						</div>
 					</div>
 				</div>

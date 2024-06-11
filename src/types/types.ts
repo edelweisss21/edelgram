@@ -1,3 +1,5 @@
+import { User } from 'firebase/auth';
+
 export interface IUserSignUp {
 	email: string;
 	password: string;
@@ -28,11 +30,32 @@ export interface IPost {
 	caption: string;
 	photos: TPhotoMeta[];
 	likes: number;
-	userLikes: [];
+	userLikes: string[];
 	userId: string | null;
 	date: Date;
 }
 
 export interface IDocumentResponse extends IPost {
-	id: string;
+	id?: string;
+}
+
+export type TLikes = {
+	likes: number;
+	isLike: boolean;
+};
+
+export interface IProfileInfo {
+	user?: User;
+	displayName?: string;
+	photoURL?: string;
+}
+
+export interface IUserProfile
+	extends Pick<IProfileInfo, 'displayName' | 'photoURL'> {
+	userId?: string;
+	userBio?: string;
+}
+
+export interface IProfileResponse extends IUserProfile {
+	id?: string;
 }
