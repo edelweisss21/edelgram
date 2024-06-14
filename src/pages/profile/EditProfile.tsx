@@ -13,6 +13,7 @@ import {
 	updateUserProfile,
 } from '@/services/repository/user.service';
 import { useUserAuth } from '@/hooks/useUserAuth';
+import { updateUserInfoOnPosts } from '@/services/repository/post.service';
 
 const EditProfile = () => {
 	const { user, updateProfileInfo } = useUserAuth();
@@ -51,6 +52,7 @@ const EditProfile = () => {
 			};
 
 			updateProfileInfo(profileInfo);
+			updateUserInfoOnPosts(profileInfo);
 		} catch (error) {
 			console.error(error);
 		}

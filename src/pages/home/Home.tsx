@@ -6,15 +6,31 @@ import { useUserAuth } from '@/hooks/useUserAuth';
 import { getPosts } from '@/services/repository/post.service';
 import { IDocumentResponse } from '@/types/types';
 import { Search } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 
 const Home = () => {
 	const { user } = useUserAuth();
 	const [data, setData] = useState<IDocumentResponse[]>([]);
+	const [filteredData, setFilteredData] = useState<IDocumentResponse[]>([]);
+
 	const getAllPosts = async () => {
 		const response: IDocumentResponse[] = (await getPosts()) || [];
 		setData(response);
+		setFilteredData(response);
 	};
+
+	const handleOnChange = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			const value = e.target.value.toLowerCase();
+			const filtered = data.filter(
+				(post) =>
+					post.caption.toLowerCase().includes(value) ||
+					post.username?.toLowerCase().includes(value)
+			);
+			setFilteredData(filtered);
+		},
+		[data]
+	);
 
 	useEffect(() => {
 		if (user !== null) getAllPosts();
@@ -29,6 +45,7 @@ const Home = () => {
 						placeholder='Search...'
 						type='search'
 						name='search'
+						onChange={handleOnChange}
 					/>
 					<button className='absolute right-2.5 top-2.5' type='submit'>
 						<Search className='w-5 h-5 text-gray-400' />
@@ -42,8 +59,10 @@ const Home = () => {
 					<h2 className='mb-5'>Feed</h2>
 					<div className='w-full flex justify-center'>
 						<div className='flex flex-col max-w-sm rounded-sm overflow-hidden'>
-							{data ? (
-								data.map((item) => <PostCard key={item.id} item={item} />)
+							{filteredData ? (
+								filteredData.map((item) => (
+									<PostCard key={item.id} item={item} />
+								))
 							) : (
 								<p>Loading...</p>
 							)}

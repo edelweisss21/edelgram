@@ -36,10 +36,8 @@ export const getUserProfile = async (userId: string) => {
 					...data,
 				};
 			});
-			return tempData;
-		} else {
-			return tempData;
 		}
+		return tempData;
 	} catch (error) {
 		console.error(error);
 	}
@@ -50,4 +48,24 @@ export const updateUserProfile = async (id: string, user: IUserProfile) => {
 	return updateDoc(docRef, {
 		...user,
 	});
+};
+
+export const getAllUsers = async (userId: string) => {
+	try {
+		const querySnapshot = await getDocs(collection(db, COLLECTION_NAME));
+		let tempArr: IProfileResponse[] = [];
+		if (querySnapshot.size > 0) {
+			querySnapshot.forEach((doc) => {
+				const userData = doc.data() as IUserProfile;
+				const responseObj: IProfileResponse = {
+					id: doc.id,
+					...userData,
+				};
+				tempArr.push(responseObj);
+			});
+		}
+		return tempArr.filter((item) => item.userId !== userId);
+	} catch (error) {
+		console.error(error);
+	}
 };

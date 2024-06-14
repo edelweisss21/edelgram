@@ -10,8 +10,9 @@ const Sidebar = () => {
 	const { logOut } = useUserAuth();
 	return (
 		<nav className='flex flex-col relative h-screen max-w-sm w-full'>
-			<div className='flex justify-center m-5'>
-				<div className='text-white text-lg'>Edelgram</div>
+			<div className='flex justify-center gap-x-2 m-5'>
+				<img src='./public/logo.svg' alt='logo' />
+				<h2 className='text-white text-lg'>Edelgram</h2>
 			</div>
 			{navLinks.map((item) => (
 				<div

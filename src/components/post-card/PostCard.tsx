@@ -11,6 +11,7 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useUserAuth } from '@/hooks/useUserAuth';
 import { updateLikesOnPost } from '@/services/repository/post.service';
+import avatar from '@/assets/images/image7.jpg';
 
 interface IPostCardProps {
 	item: IDocumentResponse;
@@ -50,7 +51,7 @@ const PostCard = ({ item }: IPostCardProps) => {
 					<CardTitle className='text-sm text-center flex justify-start items-center'>
 						<span className='mr-2'>
 							<img
-								src={item.photoURL}
+								src={item.photoURL ? item.photoURL : avatar}
 								className='w-10 h-10 rounded-full border-2 border-slate-800 object-cover'
 								alt='image'
 							/>
