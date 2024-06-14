@@ -13,9 +13,10 @@ import { useCallback, useRef } from 'react';
 interface IFileUploaderProps {
 	fileEntry: TFileEntry;
 	onChange: (fileEntry: TFileEntry) => void;
+	preview: boolean;
 }
 
-const FileUploader = ({ fileEntry, onChange }: IFileUploaderProps) => {
+const FileUploader = ({ fileEntry, onChange, preview }: IFileUploaderProps) => {
 	const ctxProviderRef = useRef<InstanceType<UploadCtxProvider>>(null);
 
 	const handleChangeEvent = (
@@ -45,6 +46,7 @@ const FileUploader = ({ fileEntry, onChange }: IFileUploaderProps) => {
 			<FileUploaderRegular
 				maxLocalFileSizeBytes={10000000}
 				multipleMax={50}
+				multiple={preview}
 				imgOnly={true}
 				sourceList='local, url, camera, dropbox, instagram'
 				removeCopyright
@@ -52,27 +54,31 @@ const FileUploader = ({ fileEntry, onChange }: IFileUploaderProps) => {
 				onChange={handleChangeEvent}
 				pubkey='e70c89d72eb677ec70b2'
 			/>
-			<div className='grid grid-cols-2 gap-4 mt-8'>
-				{fileEntry.files.map((file) => (
-					<div key={file.uuid} className='relative'>
-						<img
-							src={`${file.cdnUrl}/-/format/webp/-/quality/smart/-/stretch/fill/
+			{preview ? (
+				<div className='grid grid-cols-2 gap-4 mt-8'>
+					{fileEntry.files.map((file) => (
+						<div key={file.uuid} className='relative'>
+							<img
+								src={`${file.cdnUrl}/-/format/webp/-/quality/smart/-/stretch/fill/
               `}
-							alt={file.uuid ?? ''}
-						/>
-						<div className='cursor-pointer flex justify-center absolute -right-2 -top-2 bg-white border-2 border-slate-800  rounded-full w-7 h-7'>
-							<button
-								className='text-slate-800 text-center'
-								type='button'
-								onClick={() => handleRemoveClick(file.uuid)}
-							>
-								&times;
-							</button>
+								alt={file.uuid ?? ''}
+							/>
+							<div className='cursor-pointer flex justify-center absolute -right-2 -top-2 bg-white border-2 border-slate-800  rounded-full w-7 h-7'>
+								<button
+									className='text-slate-800 text-center'
+									type='button'
+									onClick={() => handleRemoveClick(file.uuid)}
+								>
+									&times;
+								</button>
+							</div>
+							<button onClick={resetUploaderState}>test</button>
 						</div>
-						<button onClick={resetUploaderState}>test</button>
-					</div>
-				))}
-			</div>
+					))}
+				</div>
+			) : (
+				<></>
+			)}
 		</div>
 	);
 };

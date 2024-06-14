@@ -32,6 +32,8 @@ export interface IPost {
 	likes: number;
 	userLikes: string[];
 	userId: string | null;
+	username?: string;
+	photoURL?: string;
 	date: Date;
 }
 

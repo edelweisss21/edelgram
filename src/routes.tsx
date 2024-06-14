@@ -7,6 +7,7 @@ import Profile from './pages/profile/Profile';
 import SignUp from './pages/sign-up/SignUp';
 import CreatePost from './pages/create-post/CreatePost';
 import ProtectedRoutes from './components/protected-routes/ProtectedRoutes';
+import EditProfile from './pages/profile/EditProfile';
 
 export const router = createBrowserRouter([
 	{
@@ -30,6 +31,11 @@ export const router = createBrowserRouter([
 			{
 				path: '/edelgram/profile',
 				element: <Profile />,
+				errorElement: <Error />,
+			},
+			{
+				path: '/edelgram/profile/edit/',
+				element: <EditProfile />,
 				errorElement: <Error />,
 			},
 		],

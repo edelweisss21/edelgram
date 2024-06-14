@@ -1,4 +1,5 @@
 import { auth } from '@/firebaseConfig';
+import { IProfileInfo } from '@/types/types';
 import {
 	User,
 	onAuthStateChanged,
@@ -7,6 +8,7 @@ import {
 	signOut,
 	createUserWithEmailAndPassword,
 	GoogleAuthProvider,
+	updateProfile,
 } from 'firebase/auth';
 import { ReactNode, createContext, useEffect, useState } from 'react';
 
@@ -16,6 +18,7 @@ interface IUserAuthContextData {
 	signUp: typeof signUp;
 	logOut: typeof logOut;
 	googleSignIn: typeof googleSignIn;
+	updateProfileInfo: typeof updateProfileInfo;
 }
 
 interface IUserAuthProvider {
@@ -39,12 +42,20 @@ const googleSignIn = () => {
 	return signInWithPopup(auth, googleAuthProvider);
 };
 
+const updateProfileInfo = async (profileInfo: IProfileInfo) => {
+	return updateProfile(profileInfo.user!, {
+		displayName: profileInfo.displayName,
+		photoURL: profileInfo.photoURL,
+	});
+};
+
 export const userAuthContext = createContext<IUserAuthContextData>({
 	user: null,
 	logIn,
 	signUp,
 	logOut,
 	googleSignIn,
+	updateProfileInfo,
 });
 
 export const UserAuthProvider = ({ children }: IUserAuthProvider) => {
@@ -69,6 +80,7 @@ export const UserAuthProvider = ({ children }: IUserAuthProvider) => {
 		signUp,
 		logOut,
 		googleSignIn,
+		updateProfileInfo,
 	};
 
 	return (

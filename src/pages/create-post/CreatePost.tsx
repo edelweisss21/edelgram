@@ -32,12 +32,14 @@ const CreatePost = () => {
 		const photoMeta: TPhotoMeta[] = fileEntry.files.map((file) => {
 			return { cdnUrl: file.cdnUrl, uuid: file.uuid };
 		});
-		
+
 		if (user !== null) {
 			const newPost: IPost = {
 				...post,
 				photos: photoMeta,
 				userId: user?.uid || null,
+				username: user.displayName!,
+				photoURL: user.photoURL!,
 			};
 			console.log('The final post:', newPost);
 			await createPost(newPost);
@@ -69,16 +71,20 @@ const CreatePost = () => {
 										setPost({ ...post, caption: e.target.value })
 									}
 								/>
-								<div className='flex flex-col'>
-									<Label className='mb-4' htmlFor='photo'>
-										Photos
-									</Label>
-									<FileUploader fileEntry={fileEntry} onChange={setFileEntry} />
-								</div>
-								<Button className='mt-8 w-32' type='submit'>
-									Post
-								</Button>
 							</div>
+							<div className='flex flex-col'>
+								<Label className='mb-4' htmlFor='photo'>
+									Photos
+								</Label>
+								<FileUploader
+									fileEntry={fileEntry}
+									onChange={setFileEntry}
+									preview
+								/>
+							</div>
+							<Button className='mt-8 w-32' type='submit'>
+								Post
+							</Button>
 						</form>
 					</div>
 				</div>
